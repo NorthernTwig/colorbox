@@ -9,15 +9,20 @@ class Canvas extends Component {
   }
 
   componentDidMount() {
-    const ctx = this.refs.canvas.getContext('2d')
+    const canvas = this.refs.canvas
+    const ctx = canvas.getContext('2d')
     this.setState({context: ctx})
-    const imgFileLoader = document.querySelector('#imgInput')
-    imgFileLoader.addEventListener('change', this.showImage, false)
   }
 
-  showImage(e) {
+  //componentDidMount() {
+  //  const imgFileLoader = document.querySelector('#imgInput')
+  //  imgFileLoader.addEventListener('change', this.showImage, false)
+  //}
+
+  showImage = (e) => {
     const canvas = document.querySelector('canvas')
     const ctx = canvas.getContext('2d')
+    this.setState({context: ctx})
     const reader = new FileReader()
     reader.onload = (event) => {
       const img = new Image()
@@ -38,8 +43,8 @@ class Canvas extends Component {
     reader.readAsDataURL(e.target.files[0])
   }
 
-  checkPixels() {
-    const ctx = this.state.context
+  checkPixels = () => {
+    console.log(this.state);
     console.log('Checking pixels...')
   }
 
