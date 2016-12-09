@@ -9,7 +9,9 @@ export default class FancyCanvas extends Component {
     this.state = {
       context: null,
       flowRight: false,
-      flowLeft: true
+      flowLeft: true,
+      imageData: null,
+      imageColor: null
     }
   }
 
@@ -36,6 +38,9 @@ export default class FancyCanvas extends Component {
           0,
           ctx.canvas.width,
           ctx.canvas.height)
+          this.setState({
+            imageData: e.path[0].src
+          })
           emitter.emit('loaded')
         }
         img.src = ev.target.result
@@ -68,8 +73,18 @@ export default class FancyCanvas extends Component {
       b = Math.floor(b / count)
 
       this.refs.circle.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
-
+      this.setState({
+        imageColor: {r: r, g: g, b: b}
+      })
+      this.saveToStorage()
     })
+  }
+
+  saveToStorage() {
+    const obj = {
+      data: this.state.imageData,
+      value: this.state.imageColor
+    }
   }
 
   toggleLeftRight = (e) => {
