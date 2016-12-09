@@ -44,8 +44,35 @@ class Canvas extends Component {
   }
 
   checkPixels = () => {
-    console.log(this.state);
-    console.log('Checking pixels...')
+    let r = 0
+    let g = 0
+    let b = 0
+    let count = 0;
+    // [ 29, 59, 9, 255]
+
+    console.time('loop')
+
+    for (let x = 0; x < this.state.context.canvas.clientWidth; x++) {
+      for (let y = 0; y < this.state.context.canvas.clientHeight; y++) {
+        const pixelData = this.state.context.getImageData(x, y, 1, 1)
+
+        r += pixelData.data[0]
+        g += pixelData.data[1]
+        b += pixelData.data[2]
+        count++
+
+      }
+    }
+
+    console.timeEnd('loop')
+
+    console.log(`RGB total: ${r}, ${g}, ${b}`)
+
+    r = r / count * 10
+    g = g / count * 10
+    b = b / count * 10
+
+    console.log(`RGB average: ${r}, ${g}, ${b}`)
   }
 
   render() {
