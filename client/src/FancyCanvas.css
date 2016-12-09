@@ -1,0 +1,189 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7f55b3+0,5b429a+100 */
+background: #7f55b3; /* Old browsers */
+background: -moz-linear-gradient(45deg,  #7f55b3 0%, #5b429a 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(45deg,  #7f55b3 0%,#5b429a 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(45deg,  #7f55b3 0%,#5b429a 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f55b3', endColorstr='#5b429a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+.container {
+  display: flex;
+  align-self: center;
+  width: 500px;
+  height: 700px;
+  border-radius: 5px;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);
+}
+
+.header {
+  width: 100%;
+  height: 100px;
+  background-color: #3E3D51;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.option {
+  align-self: center;
+  color: white;
+  margin: 20px;
+  cursor: pointer;
+  padding: 10px;
+  background-color: rgba(98, 119, 209, 1); /*(#7c53b1)*/
+  box-shadow: 0 3px 3px 0 rgba(0,0,0,0.05),0 1px 7px 0 rgba(0,0,0,0.05),0 3px 1px -1px rgba(0,0,0,0.10);
+  border-radius: 2px;
+  width: 20%;
+  text-align: center;
+  transition: all 100ms;
+}
+
+.option:hover {
+  background-color: rgba(98, 119, 209, 0.8);
+  transition: all 50ms;
+}
+
+.body {
+  width: 100%;
+  height: 100%;
+  background-color: #515770;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.body-container {
+  align-self: center;
+  width: 95%;
+  height: 95%;
+  background-color: #454B5E;
+  border-radius: 2px;
+  align-self: center;
+  box-shadow: inset 0 0px 10px 0 rgba(0, 0, 0, 0.05);
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transition: all 500ms;
+  position: relative;
+  left: 0%;
+  width: 100%;
+  max-width: 95%;
+}
+
+/* scrollbar */
+*::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+*::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #3E3D51;
+  outline: 1px solid red;
+  border-radius: 2px;
+}
+/* SLUT */
+
+.row {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+}
+
+.image {
+  width: 100%;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.25);
+  margin: 10px;
+  border-radius: 2px;
+}
+
+/* Input Hide */
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.file-button {
+  position: relative;
+  top: 505px;
+}
+
+.body-upload {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  transition: all 500ms;
+  right: 0%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column-reverse;
+
+}
+
+.circle {
+  width: 40px;
+  position: relative;
+  height: 40px;
+  top: 483px;
+  border-radius: 100%;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  align-self: center;
+  background-color: rebeccapurple;
+}
+
+.left {
+  right: 100%;
+  width: 0px;
+}
+
+.right {
+  left: 100%;
+  width: 0px;
+}
+
+input {
+  display: block;
+}
+
+button {
+  border: none;
+  outline: none;
+  align-self: center;
+}
+
+canvas {
+  background-color: rgba(0, 0, 0, 0.25);
+  align-self: center;
+  position: relative;
+  bottom: 90px;
+}
+
+form {
+  align-self: center;
+}

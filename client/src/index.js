@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+//import App from './App'
+import FancyCanvas from './FancyCanvas'
 import './index.css'
 
 ReactDOM.render(
-  <App />,
+  <FancyCanvas />,
   document.getElementById('root')
 )
