@@ -67,12 +67,7 @@ export default class FancyCanvas extends Component {
       g = Math.floor(g / count)
       b = Math.floor(b / count)
 
-      console.log(`rgb(${r}, ${g}, ${b})`)
       this.refs.circle.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
-
-      //const avCnvs = document.querySelector('#average').getContext('2d')
-      //avCnvs.fillStyle = `rgb(${r}, ${g}, ${b})`
-      //avCnvs.fillRect(0, 0, 50, 50)
 
     })
   }
