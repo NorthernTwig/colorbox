@@ -68,17 +68,21 @@ class Canvas extends Component {
 
     console.log(`RGB total: ${r}, ${g}, ${b}`)
 
-    r = r / count * 10
-    g = g / count * 10
-    b = b / count * 10
+    r = Math.floor(r / count * 10)
+    g = Math.floor(g / count * 10)
+    b = Math.floor(b / count * 10)
 
     console.log(`RGB average: ${r}, ${g}, ${b}`)
+    const avCnvs = document.querySelector('#average').getContext('2d')
+    avCnvs.fillStyle = `rgb(${r}, ${g}, ${b})`
+    avCnvs.fillRect(0, 0, 50, 50)
   }
 
   render() {
     return (
       <div>
-        <canvas ref="canvas"></canvas><br/>
+        <canvas ref="canvas"></canvas>
+        <canvas id="average" width="50" height="50"></canvas><br/>
         <input id="imgInput" type="file" onChange={this.showImage} /><br/>
         <button onClick={this.checkPixels}>Check</button>
       </div>
