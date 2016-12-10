@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {EventEmitter} from 'fbemitter'
+import request from 'superagent'
 import './FancyCanvas.css'
 const emitter = new EventEmitter()
 
@@ -11,7 +12,10 @@ export default class FancyCanvas extends Component {
       flowRight: false,
       flowLeft: true,
       imageData: null,
-      imageColor: null
+      imageColor: null,
+      file: null,
+      images: null,
+      testing: []
     }
   }
 
@@ -20,6 +24,9 @@ export default class FancyCanvas extends Component {
     const ctx = canvas.getContext('2d')
     this.setState({context: ctx})
     this.setListener()
+    this.reRender()
+    this.getImages()
+      .then(() => this.settingImages())
   }
 
   showImage = (e) => {
@@ -45,17 +52,16 @@ export default class FancyCanvas extends Component {
         }
         img.src = ev.target.result
     }
+    this.setState({file: e.target.files[0]})
     reader.readAsDataURL(e.target.files[0])
   }
 
   setListener() {
     emitter.addListener('loaded', () => {
-
       let r = 0
       let g = 0
       let b = 0
       let count = 0
-
       for (let x = 0; x < this.state.context.canvas.clientWidth; x++) {
         for (let y = 0; y < this.state.context.canvas.clientHeight; y++) {
           const pixelData = this.state.context.getImageData(x, y, 1, 1)
@@ -76,15 +82,7 @@ export default class FancyCanvas extends Component {
       this.setState({
         imageColor: {r: r, g: g, b: b}
       })
-      this.saveToStorage()
     })
-  }
-
-  saveToStorage() {
-    const obj = {
-      data: this.state.imageData,
-      value: this.state.imageColor
-    }
   }
 
   toggleLeftRight = (e) => {
@@ -93,10 +91,69 @@ export default class FancyCanvas extends Component {
     this.setState({flowLeft: flowLeft, flowRight: flowRight})
   }
 
+  save(e) {
+    e.preventDefault()
+
+    const file = this.state.file
+
+    const fd = new FormData()
+    fd.append('file', file)
+    fd.append('color', JSON.stringify(this.state.imageColor))
+
+    request
+      .post('http://localhost:3001/images/save')
+      .send(fd)
+      .end((err, res) => {
+      emitter.emit('render')
+    })
+
+  }
+
+  reRender() {
+    emitter.addListener('render', () => {
+      this.getImages()
+        .then(() => this.settingImages())
+    })
+  }
+
+  getImages() {
+    return new Promise(res => {
+      fetch('http://localhost:3001/images/load', {
+        method: 'GET',
+        mode: 'cors'
+      })
+        .then(r => r.json())
+        .then(l => {
+          let imageArray = []
+          for (let i = 0; i < l.length; i++) {
+            imageArray.push({'path': l[i].path, 'color': l[i].color})
+          }
+          this.setState({images: imageArray})
+        })
+        .then(() => res())
+        .catch(e => console.log(e))
+    })
+  }
+
+  settingImages() {
+    let omg = []
+    let amg = []
+      for (let i = 0; i < this.state.images.length; i++) {
+        let asdiaisdu = JSON.parse(this.state.images[i].color)
+        let buildit = 'rgb(' + asdiaisdu.r + ', ' + asdiaisdu.g + ', ' + asdiaisdu.b + ')'
+        let styleish = {backgroundImage: 'url(http://localhost:3001/images/load/' + this.state.images[i].path + ')', borderBottomColor: buildit}
+        omg.push(<div key={i} className='image' style={styleish}></div>)
+        if (i % 3 == 0) {
+          amg.push(<div className='row' key={'king' + i}>{omg}</div>)
+          omg = []
+        }
+      }
+    this.setState({testing: [...amg]})
+  }
+
   render() {
     let hej = this.state.flowLeft ? 'body-upload left' : 'body-upload'
     let hejsan = this.state.flowRight ? 'body-container right' : 'body-container'
-
     return (
         <div className='wrapper'>
           <div className='container'>
@@ -109,18 +166,15 @@ export default class FancyCanvas extends Component {
             <div className='body'>
             <div className={hej} ref='bodyUploadRef'>
               <canvas ref='canvas' width='500' height='500'>Du har inte Canvas din buse</canvas>
-              <form>
+              <form ref="kingen" encType="multipart/form-data">
                 <input type='file' name='file' id='file' className='inputfile' onChange={this.showImage} />
                 <label htmlFor='file' className='file-button option'>Choose a file</label>
+                <input type='button' onClick={this.save.bind(this)} value="afgiahifu"/>
               </form>
               <div className='circle' ref='circle'></div>
             </div>
             <div className={hejsan} ref='bodyContainerRef'>
-              <div className='row'>
-                <div className='image'></div>
-                <div className='image'></div>
-                <div className='image'></div>
-              </div>
+                {this.state.testing}
             </div>
           </div>
         </div>

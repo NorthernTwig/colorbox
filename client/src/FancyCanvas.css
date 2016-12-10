@@ -114,6 +114,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f55b3', end
   background-color: rgba(0, 0, 0, 0.25);
   margin: 10px;
   border-radius: 2px;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 10px solid white;
 }
 
 /* Input Hide */
@@ -126,10 +129,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f55b3', end
 	z-index: -1;
 }
 
-.file-button {
+/*.file-button {
   position: relative;
   top: 505px;
-}
+}*/
 
 .body-upload {
   position: relative;
@@ -186,4 +189,6 @@ canvas {
 
 form {
   align-self: center;
+  position: relative;
+  top: 500px;
 }
