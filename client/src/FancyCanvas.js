@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {EventEmitter} from 'fbemitter'
 import request from 'superagent'
+import axios from 'axios'
 import './FancyCanvas.css'
 const emitter = new EventEmitter()
 
@@ -25,8 +26,7 @@ export default class FancyCanvas extends Component {
     this.setState({context: ctx})
     this.setListener()
     this.reRender()
-    this.getImages()
-      .then(() => this.settingImages())
+    emitter.emit('render')
   }
 
   showImage = (e) => {
@@ -112,26 +112,23 @@ export default class FancyCanvas extends Component {
   reRender() {
     emitter.addListener('render', () => {
       this.getImages()
-        .then(() => this.settingImages())
+      .then(() => this.settingImages())
     })
   }
 
   getImages() {
     return new Promise(res => {
-      fetch('http://localhost:3001/images/load', {
-        method: 'GET',
-        mode: 'cors'
+      axios('http://localhost:3001/images/load', {
+        method: 'GET'
       })
-        .then(r => r.json())
-        .then(l => {
-          let imageArray = []
-          for (let i = 0; i < l.length; i++) {
-            imageArray.push({'path': l[i].path, 'color': l[i].color})
-          }
-          this.setState({images: imageArray})
-        })
-        .then(() => res())
-        .catch(e => console.log(e))
+      .then(l => {
+        let imageArray = []
+        for (let i = 0; i < l.data.length; i++) {
+          imageArray.push({'path': l.data[i].path, 'color': l.data[i].color})
+        }
+        return this.setState({images: imageArray})
+      })
+      .then(() => res())
     })
   }
 
@@ -143,11 +140,12 @@ export default class FancyCanvas extends Component {
         let buildit = 'rgb(' + asdiaisdu.r + ', ' + asdiaisdu.g + ', ' + asdiaisdu.b + ')'
         let styleish = {backgroundImage: 'url(http://localhost:3001/images/load/' + this.state.images[i].path + ')', borderBottomColor: buildit}
         omg.push(<div key={i} className='image' style={styleish}></div>)
-        if (i % 3 == 0) {
+        if (i % 3 === 0) {
           amg.push(<div className='row' key={'king' + i}>{omg}</div>)
           omg = []
         }
       }
+    amg.push(<div className='row' key={'king end'}>{omg}</div>)
     this.setState({testing: [...amg]})
   }
 
